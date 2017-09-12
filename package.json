@@ -1,0 +1,23 @@
+{
+  "name": "mean",
+  "version": "1.0.0",
+  "description": "MEAN First Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netanelm54/MEAN.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/netanelm54/MEAN/issues"
+  },
+  "homepage": "https://github.com/netanelm54/MEAN#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "mongoose": "^4.11.11"
+  }
+}
