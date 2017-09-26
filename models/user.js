@@ -8,7 +8,7 @@ const emailValidator = [{
     validator: function(email){
         if(!email) return false;
         else{
-            if(email.legth > 50) return false;
+            if(email.legth > 30 || email.legth < 5) return false;
             let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
             return regexp.test(email);
         }
