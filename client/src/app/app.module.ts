@@ -14,7 +14,8 @@ import { LoginComponent } from './pages/login/login.component'
 import { ProfileComponent } from './pages/profile/profile.component';
 
 import { AuthService } from './services/auth.service';
-
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { AuthService } from './services/auth.service';
     FlashMessagesModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    AuthGuard,
+    NotAuthGuard
   ],
   bootstrap: [AppComponent]
 })
