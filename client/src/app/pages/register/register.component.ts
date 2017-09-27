@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,33 +11,40 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   form: FormGroup;
+  message: string;
+  messageClass: string;
+  formLock = false;
+  emailValid;
+  emailMessage;
+  usernameValid;
+  usernameMessage;
 
-  constructor( private formBuilder: FormBuilder ) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.createForm();
   }
 
-  createForm(){
+  createForm() {
     this.form = this.formBuilder.group(
       {
         email: ['', Validators.compose([
-          Validators.required, 
+          Validators.required,
           Validators.minLength(5),
-          Validators.maxLength(30), 
-          this.validateEmail 
+          Validators.maxLength(30),
+          this.validateEmail
         ])],
         username: ['', Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(15), 
-          this.validateUsername 
+          Validators.maxLength(15),
+          this.validateUsername
         ])],
         password: ['', Validators.compose([
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(35), 
-          this.validatePassword 
+          Validators.maxLength(35),
+          this.validatePassword
         ])],
-        confirm: ['', Validators.required] 
+        confirm: ['', Validators.required]
       }, { validator: this.matchingPasswords('password', 'confirm') });
   }
 
@@ -77,9 +86,56 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  onRegisterSubmit(){
-    console.log('form submitted');
+  onRegisterSubmit() {
+    const user = {
+      email: this.form.get('email').value,
+      username: this.form.get('username').value,
+      password: this.form.get('password').value
+    }
+
+    this.authService.registerUser(user).subscribe(res => {
+      if (res.success) {
+        this.messageClass = 'alert alert-success';
+        this.message = res.message;
+        this.formLock = true;
+
+        setTimeout(() => {
+          this.router.navigate(['/login']); // Redirect to login view
+        }, 2000);
+      }
+      else {
+        this.messageClass = 'alert alert-danger';
+        this.message = res.message;
+      }
+    });
   }
+
+  checkEmail() {
+    if(!this.form.get('email').value) return;
+    this.authService.checkEmail(this.form.get('email').value).subscribe(data => {
+      if (!data.success) {
+        this.emailValid = false; // Return email as invalid
+        this.emailMessage = data.message; // Return error message
+      } else {
+        this.emailValid = true; // Return email as valid
+        this.emailMessage = data.message; // Return success message
+      }
+    });
+  }
+
+  checkUsername() {
+    if(!this.form.get('username').value) return;
+    this.authService.checkUsername(this.form.get('username').value).subscribe(data => {
+      if (!data.success) {
+        this.usernameValid = false; // Return username as invalid
+        this.usernameMessage = data.message; // Return error message
+      } else {
+        this.usernameValid = true; // Return username as valid
+        this.usernameMessage = data.message; // Return success message
+      }
+    });
+  }
+
 
   ngOnInit() {
   }

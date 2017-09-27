@@ -1,1 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
+
+.danger{ color: #8A0000; }
+.success{ color: green }
