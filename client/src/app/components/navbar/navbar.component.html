@@ -1,25 +1,31 @@
-<div class="collapse bg-dark" id="navbarHeader">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4 py-4">
-        <ul class="list-unstyled">
-          <li><a *ngIf="authService.loggedIn()" routerLink="/dashboard" class="text-white">Dashboard</a></li>
-          <li><a *ngIf="authService.loggedIn()" routerLink="/profile" class="text-white">Profile</a></li>
-          <li><a *ngIf="authService.loggedIn()" routerLink="/" class="text-white">Blog</a></li>
-          <li><a *ngIf="!authService.loggedIn()" routerLink="/login" class="text-white">Login</a></li>
-          <li><a *ngIf="authService.loggedIn()" routerLink="/" (click)='logOut()' class="text-white">LogOut</a></li>
-          <li><a *ngIf="!authService.loggedIn()" routerLink="/register" class="text-white">Register</a></li>
+ <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/">VMarket</a>
+    </div>
 
-        </ul>
-      </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/dashboard">Dashboard</a></li>
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="!authService.loggedIn()"><a routerLink="/login">Login</a></li>
+        <li *ngIf="!authService.loggedIn()"><a routerLink="/register">Register</a></li>
+        <li *ngIf="authService.loggedIn()" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ user?.username }} <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a routerLink="/profile"  >Profile</a></li>
+            <li><a *ngIf="authService.loggedIn()" routerLink="/" (click)='logOut()'>LogOut</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
-</div>
-<div class="navbar navbar-dark bg-dark">
-  <div class="container d-flex justify-content-between">
-    <a routerLink="" class="navbar-brand">Home</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </div>
-</div>
+</nav>

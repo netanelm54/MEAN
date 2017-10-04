@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         this.authService.storeUserData(res.token, res.user);
         setTimeout(() => {
           if(this.previousUrl) this.router.navigate([this.previousUrl]);
-          else this.router.navigate(['/dashboard']);
+          else this.router.navigate(['/']);
         }, 2000);
       }
     });
